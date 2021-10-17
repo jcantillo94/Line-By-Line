@@ -1,0 +1,6 @@
+module Pods_LinePerLine {
+  umbrella header "Pods-LinePerLine-umbrella.h"
+
+  export *
+  module * { export * }
+}
