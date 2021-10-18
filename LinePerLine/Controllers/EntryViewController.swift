@@ -55,12 +55,10 @@ class EntryViewController: UIViewController, UITableViewDataSource, UITableViewD
                                     let indexPath = IndexPath(row: self.entries.count - 1, section: 0)
                                     self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
                                 }
-                                
                             }
                         }
                     }
                 }
-                
             }
     }
     
@@ -68,20 +66,14 @@ class EntryViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("cellForRowAt")
         let entry = entries[indexPath.row]
         
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.locale = Locale(identifier: "en_US")
-//        dateFormatter.setLocalizedDateFormatFromTemplate("MMMMd")
-        
+
         let entryDateParsed = entry.dateCreated.components(separatedBy: ",")
 
         cell.textLabel?.text = entryDateParsed[0] + "," + entryDateParsed[1] + " - " + entry.title
         
         return cell
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("numberOfRows")
@@ -101,7 +93,4 @@ class EntryViewController: UIViewController, UITableViewDataSource, UITableViewD
             destinationVC.selectedEntry = entries[indexPath.row]
         }
     }
-    
-    
-    
 }

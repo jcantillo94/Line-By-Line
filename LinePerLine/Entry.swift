@@ -10,7 +10,6 @@ import Foundation
 struct Entry {
     let title : String
     let dateCreated : String
-//    let lastEdited: Date
     let entryText: String
     let docId : String
     

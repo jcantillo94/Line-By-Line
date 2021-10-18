@@ -12,128 +12,7 @@ import Vision
 import SwiftGoogleTranslate
 
 
-class NewEntryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
-    
-    var languages = LanguageManager()
-    
-    var previousLang = ""
-    
-    var selectedLanguage : String?
-    
-    @IBOutlet weak var languagePicker: UIPickerView!
-    
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return languages.languageArray.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return languages.languageArray[row].name
-    }
-
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-
-        selectedLanguage = languages.languageArray[row].code
-    }
-    
-    
-    let db = Firestore.firestore()
-    
-    var currentLang = ""
-    
-    let imagePicker = UIImagePickerController()
-    
-    @IBOutlet weak var pickerView: UIPickerView!
-    
-    var googleT: () = SwiftGoogleTranslate.shared.start(with: "AIzaSyCLQbNaYbJ_CpSPxUHsFN5Lb5QEfJccMsg")
-    
-    @IBAction func translateButton(_ sender: UIButton) {
-        print("translatebutton")
-        
-        if let originalText = textField.text{
-            print(originalText)
-            
-            var lang = " "
-            
-            SwiftGoogleTranslate.shared.detect(originalText) { detections, error in
-                if let detections = detections {
-                    for detection in detections {
-                      lang = detection.language
-                        print(lang)
-    //                                  let reliable = detection.isReliable
-    //                                  let confidence = detection.confidence
-    //                                  print("---")
-                    
-            }
-                    self.translate(text: originalText, lang: lang)
-                } else {
-                    print("error: \(String(describing: error))")
-                }
-    }
-            
-            print("before translate:" + lang)
-            
-//            SwiftGoogleTranslate.shared.translate(originalText, "es", lang) { text, error in
-//
-//                print(text)
-//                if let t = text {
-//
-//                    DispatchQueue.main.async {
-//                        self.textField.text += t + " "
-//                    }
-//                } else {
-//                    print("error: \(String(describing: error))")
-//                }
-            }
-        }
-
-    
-    
-    func translate (text : String, lang : String) {
-        
-        if self.selectedLanguage == self.previousLang  {
-            
-            let seperators = CharacterSet(charactersIn: "\n.")
-            let sentences = self.textField.text.components(separatedBy: seperators)
-            
-            for sentence in sentences {
-            
-            }
-            
-        } else {
-            
-        }
-        
-        if let translateInto = selectedLanguage {
-            SwiftGoogleTranslate.shared.translate(text, translateInto, lang) { text, error in
-
-        
-            
-            print(text)
-            
-                if let t = text {
-
-                    DispatchQueue.main.async {
-                        self.textField.text += "\n \n" + t + " "
-                        self.textField.text += "\n"
-                    }
-                } else {
-                    print("error: \(String(describing: error))")
-                }
-        }
-        }
-    
-    }
-    
-    
-    @IBOutlet weak var textField: UITextView!
+class NewEntryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var entry = ""
     var firstDate = ""
@@ -146,114 +25,32 @@ class NewEntryViewController: UIViewController, UIImagePickerControllerDelegate,
         }
     }
     
+    @IBOutlet weak var languagePicker: UIPickerView!
+    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var textField: UITextView!
     
-    @IBAction func cameraTapped(_ sender: UIBarButtonItem) {
-        
-        present(imagePicker, animated: true, completion: nil)
-    }
+    let db = Firestore.firestore()
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        print("imagePickerController")
-        
-        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-//            imageView.image = userPickedImage
-            
-            guard let ciImage = CIImage(image: userPickedImage) else {
-                fatalError("Could not convert UIImage to CIImage")
-            }
-            
-            let requestHandler = VNImageRequestHandler(ciImage: ciImage, options: [:])
-            
-            print(ciImage)
-
-            let request = VNRecognizeTextRequest { (request, error) in
-                
-                print(request)
-
-                guard let observations = request.results as? [VNRecognizedTextObservation]
-                else { return }
-                
-                var completedString = ""
-                var lang = ""
-
-                for observation in observations {
-                    print("observations")
-
-                    let topCandidate: [VNRecognizedText] = observation.topCandidates(1)
-
-                    if let recognizedText: VNRecognizedText = topCandidate.first {
-                        print(recognizedText.string)
-                        completedString += recognizedText.string + " "
-                        self.textField.text += recognizedText.string + " "
-//                        self.textField.text +=
-                        
-                        SwiftGoogleTranslate.shared.detect(recognizedText.string) { detections, error in
-                            if let detections = detections {
-                                for detection in detections {
-                                  lang = detection.language
-//                                  let reliable = detection.isReliable
-//                                  let confidence = detection.confidence
-//                                  print("---")
-                                
-                        }
-                    }
-                }
-                    }
-                    
-                                    }
-                print(lang)
-                SwiftGoogleTranslate.shared.translate(completedString, "es", lang) { text, error in
-                    if let t = text {
-                        
-                        DispatchQueue.main.async {
-                            print(completedString)
-                            self.textField.text += t + " "
-                        }
-                    }
-                }
-
-                self.textField.text += "\n"
-//            detect(image: ciImage)
-        }
-            
-            print(request)
-            
-            request.recognitionLevel = VNRequestTextRecognitionLevel.accurate
-
-            try? requestHandler.perform([request])
-            // non-realtime asynchronous but accurate text recognition
-//            request.recognitionLevel = VNRequestTextRecognitionLevel.accurate
-//
-//            try? requestHandler.perform([request])
-        
-        imagePicker.dismiss(animated: true, completion: nil)
-    }
-    }
+    let imagePicker = UIImagePickerController()
     
+    var languages = LanguageManager()
     
+    var googleT: () = SwiftGoogleTranslate.shared.start(with: K.googleTranslateAPIKey)
     
-    func loadItems() {
-        
-        if let entryText = selectedEntry?.entryText, let createdDate = selectedEntry?.dateCreated, let documentId = selectedEntry?.docId, let entryTitle = selectedEntry?.title {
-            //            textField.text = entry
-            entry = entryText
-            firstDate = createdDate
-            docId = documentId
-            titleText = entryTitle
-            
-        }
-        
-    }
+    var previousLang = ""
+    
+    var currentLang = ""
+    
+    var selectedLanguage : String?
     
     override func viewWillAppear(_ animated: Bool) {
         textField.text = entry
-//        navigationController?.title = firstDate
-//        self.tabBarController?.navigationItem.title = "My Title"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        selectedLanguage = languages.languageArray[0].code
         
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
@@ -264,11 +61,146 @@ class NewEntryViewController: UIViewController, UIImagePickerControllerDelegate,
         
         self.navigationItem.leftBarButtonItem = newBackButton
         
-        
         if titleText != "" {
             self.title = titleText
         } else {
             self.title = "New Entry"
+        }
+    }
+    
+    @IBAction func translateButton(_ sender: UIButton) {
+        print("translatebutton")
+        
+        
+        if let originalText = textField.text{
+            print(originalText)
+            
+            var lang = " "
+            
+            SwiftGoogleTranslate.shared.detect(originalText) { detections, error in
+                if let detections = detections {
+                    for detection in detections {
+                        lang = detection.language
+                        print(lang)
+                        
+                    }
+                    
+                    DispatchQueue.main.async {
+                        if let range = self.textField.selectedTextRange {
+                            
+                            print(range)
+                            
+                            if let text = self.textField.text(in: range) {
+                                
+                                if text == "" {
+                                    self.translate(text: originalText, lang: lang)
+
+                                } else {
+                                    self.translate(text: text, lang: lang)
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                } else {
+                    print("error: \(String(describing: error))")
+                }
+            }
+        }
+    }
+    
+    func translate (text : String, lang : String) {
+        
+        if let translateInto = self.selectedLanguage {
+            print("inside translate" + translateInto)
+            SwiftGoogleTranslate.shared.translate(text, translateInto, lang) { text, error in
+                
+                if let t = text {
+                    
+                    DispatchQueue.main.async {
+                        self.textField.text += "\n" + t + " "
+                    }
+                } else {
+                    print("error: \(String(describing: error))")
+                }
+            }
+        }
+        
+    }
+    
+    
+    @IBAction func cameraTapped(_ sender: UIBarButtonItem) {
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            
+            guard let ciImage = CIImage(image: userPickedImage) else {
+                fatalError("Could not convert UIImage to CIImage")
+            }
+            
+            let requestHandler = VNImageRequestHandler(ciImage: ciImage, options: [:])
+            
+            let request = VNRecognizeTextRequest { (request, error) in
+                
+                guard let observations = request.results as? [VNRecognizedTextObservation]
+                else { return }
+                
+                var completedString = ""
+                var lang = ""
+                
+                for observation in observations {
+                    
+                    let topCandidate: [VNRecognizedText] = observation.topCandidates(1)
+                    
+                    if let recognizedText: VNRecognizedText = topCandidate.first {
+
+                        completedString += recognizedText.string + " "
+                        self.textField.text += recognizedText.string + " "
+                        
+                        
+                        SwiftGoogleTranslate.shared.detect(recognizedText.string) { detections, error in
+                            if let detections = detections {
+                                for detection in detections {
+                                    lang = detection.language
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+                SwiftGoogleTranslate.shared.translate(completedString, "es", lang) { text, error in
+                    if let t = text {
+                        
+                        DispatchQueue.main.async {
+                            self.textField.text += t + " "
+                        }
+                    }
+                }
+                
+                self.textField.text += "\n"
+            }
+            
+            request.recognitionLevel = VNRequestTextRecognitionLevel.accurate
+            
+            try? requestHandler.perform([request])
+            
+            imagePicker.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func loadItems() {
+        
+        if let entryText = selectedEntry?.entryText, let createdDate = selectedEntry?.dateCreated, let documentId = selectedEntry?.docId, let entryTitle = selectedEntry?.title {
+            
+            entry = entryText
+            firstDate = createdDate
+            docId = documentId
+            titleText = entryTitle
         }
     }
     
@@ -282,20 +214,11 @@ class NewEntryViewController: UIViewController, UIImagePickerControllerDelegate,
             dateFormatter.setLocalizedDateFormatFromTemplate("MMMMdYYYY HH:mm:ss Z")
             
             if self.firstDate != "" {
-//                if let entryText = self.textField.text {self.db.collection("entries").addDocument(data: ["dateCreated" : self.firstDate,  "entryText" : entryText]) { error in
-//                    if let e = error {
-//                        print("There was an issue saving data to firestore, \(e)")
-//
-//                    } else {
-//                        print("Successfully saved data.")
-//                    }
-//                }
-//                }
-               
+                
                 let entryRef = self.db.collection("entries").document(self.docId)
                 
                 if let entryText = self.textField.text {
-                
+                    
                     entryRef.updateData([
                         "entryText": entryText,
                         "title": self.titleText
@@ -320,8 +243,8 @@ class NewEntryViewController: UIViewController, UIImagePickerControllerDelegate,
                 
                 if let entryText = self.textField.text {self.db.collection("entries").addDocument(data: ["dateCreated" : dateFormatter.string(from: Date.init()),  "entryText" : entryText, "title" : entryText.components(separatedBy: "\n")[0]]) { error in
                     if let e = error {
-                  
-                      print("There was an issue saving data to firestore, \(e)")
+                        
+                        print("There was an issue saving data to firestore, \(e)")
                         
                     } else {
                         print("Successfully saved data.")
@@ -338,28 +261,26 @@ class NewEntryViewController: UIViewController, UIImagePickerControllerDelegate,
         alertController.addAction(okAction)
         self.present(alertController, animated: true)
     }
+}
+
+//MARK: UIPickerView DataSource & Delegate
+
+extension NewEntryViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
-    //    override func viewWillDisappear(_ animated: Bool) {
-    //        super.viewWillDisappear(animated)
-    //
-    //        if self.isMovingFromParent {
-    //            // Your code...
-    //            print("isMovingFromParent")
-    //
-    //            let alertController = UIAlertController(title: "Are You Sure?", message: "If You Proceed, All Data On This Page Will Be Lost", preferredStyle: .alert)
-    //
-    //            let okAction = UIAlertAction(title: "Ok", style: .default) { okAction in
-    //
-    //                }
-    //
-    //            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-    //
-    //            alertController.addAction(cancelAction)
-    //            alertController.addAction(okAction)
-    //            self.present(alertController, animated: true, completion: nil)
-    //        }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return languages.languageArray.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return languages.languageArray[row].name
+    }
     
     
-    
-    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedLanguage = languages.languageArray[row].code
+    }
 }
