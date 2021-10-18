@@ -308,7 +308,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="jcantillo333@gmail.com" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kck-yz-Clj">
+                            <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kck-yz-Clj">
                                 <rect key="frame" x="60" y="403" width="300" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -425,7 +425,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="KwV-H3-7Iz"/>
-        <segue reference="vY3-tG-eqX"/>
+        <segue reference="PBL-RY-ZCL"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="book_004" width="5000" height="5000"/>
