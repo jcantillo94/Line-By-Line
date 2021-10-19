@@ -206,8 +206,8 @@ class NewEntryViewController: UIViewController, UIImagePickerControllerDelegate,
     
     @objc func backAction(sender: UIBarButtonItem) {
         
-        let alertController = UIAlertController(title: "Are You Sure?", message: "If You Proceed, All Data On This Page Will Be Lost", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default) { (result : UIAlertAction) -> Void in
+        let alertController = UIAlertController(title: "Save Entry?", message: "If entry is empty, no data will be saved.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Yes", style: .default) { (result : UIAlertAction) -> Void in
             
             let dateFormatter = DateFormatter()
             dateFormatter.locale = Locale(identifier: "en_US")
