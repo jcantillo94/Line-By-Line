@@ -1,6 +1,21 @@
 # Line-By-Line
 A iOS journaling app created in Swift that translates entered texts into a target language. Journal entries are stored into a Firebase database for easy access via account creation and authentication.
 
+## Purpose
+
+- Create and save journal entries that are tied to account authentication so that saved entries can persist outside the initial device that they were saved on.
+
+1. When typing text, select the text that you'd want to translate then select the target language the text will translate into. If you don't select any text, all text within the entry's text field will be translated into the target langauge.
+2. You can also utilize photos stored in your camera roll; The top-right camera functionality in the 'New Entry' function will attempt to transcribe the text within the images onto the entry's text field.
+3. When finished with the entry, select the back button on the top-left to save and return back to the Home screen.
+
+## Current To-Do's
+
+- Delete function for unwanted, saved entries on the 'Previous Entries' table view
+- Better UI design: Color, Font
+- Account Settings functionality (Discuss this with me if interested on working on this one)
+- Better text recognition for images (text recognition is not reliable if the text/handwriting is unorthodox)
+
 ## Screenshots of Main Functionalities
 
 ![image](https://user-images.githubusercontent.com/48455155/137930705-9ed6247d-ee77-4537-9ee3-161e5b6e7a90.png)
@@ -20,6 +35,7 @@ To run this project locally:
 - Copy & Paste the GoogleSerive-Info.plist within the 'LinePerLine' project folder directory
 - If you wish to run your own Google Translation API key, proceed to https://cloud.google.com/translate/docs/reference/rest/ and follow the instructions within 'Get Started for Free' on the top-right.
 - If you wish to run your own Firestore database, get started with https://firebase.google.com/ and simply create a dedicated project for this project.
+- Once you run the project in Xcode, Register an email and password so that you can proceed to the functionalities.
 
 
 ## Technologies Used
