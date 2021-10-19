@@ -9,12 +9,13 @@ A iOS journaling app created in Swift that translates entered texts into a targe
 2. You can also utilize photos stored in your camera roll; The top-right camera functionality in the 'New Entry' function will attempt to transcribe the text within the images onto the entry's text field.
 3. When finished with the entry, select the back button on the top-left to save and return back to the Home screen.
 
-## Current To-Do's
+## Current To-Do's (10/18/21)
 
 - Delete function for unwanted, saved entries on the 'Previous Entries' table view
 - Better UI design: Color, Font
 - Account Settings functionality (Discuss this with me if interested on working on this one)
 - Better text recognition for images (text recognition is not reliable if the text/handwriting is unorthodox)
+- Additional languages to select
 
 ## Screenshots of Main Functionalities
 
