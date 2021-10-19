@@ -8,6 +8,11 @@ A iOS journaling app created in Swift that translates entered texts into a targe
 ![image](https://user-images.githubusercontent.com/48455155/137930928-1d3db6a0-a95e-4683-8731-183c1c0b9f27.png)
 ![image](https://user-images.githubusercontent.com/48455155/137930955-ec5348a2-c8cc-42b0-bd6b-6dafd8136da7.png)
 ![image](https://user-images.githubusercontent.com/48455155/137930864-c4536d53-8046-4b0c-98a2-ddc00b64cfe0.png)
+![image](https://user-images.githubusercontent.com/48455155/137947700-85c16155-13de-45cd-a9ff-0d039d321190.png) 
+![image](https://user-images.githubusercontent.com/48455155/137947737-9dd85dc7-c699-4daa-a622-c86464c22e82.png)
+
+
+
 
 ## Quick Start
 
