@@ -15,7 +15,7 @@ A iOS journaling app created in Swift that translates entered texts into a targe
 - Better UI design: Color, Font
 - Account Settings functionality (Discuss this with me if interested on working on this one)
 - Better text recognition for images (text recognition is not reliable if the text/handwriting is unorthodox)
-- Additional languages to select
+- Limited languages to select
 
 ## Screenshots of Main Functionalities
 
