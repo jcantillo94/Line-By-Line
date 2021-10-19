@@ -13,9 +13,11 @@ A iOS journaling app created in Swift that translates entered texts into a targe
 
 To run this project locally:
 
-- Message or email me directly for my own Google Translation API Key.
+- Message or email me directly for my own Google Translation API Key and Firebase GoogleService-Info.plist.
 - Within NewEntryViewController.swift, replace line 38's 'with' parameter (K.googleTranslateAPIKey) with the key that you received from me.
+- Copy & Paste the GoogleSerive-Info.plist within the 'LinePerLine' project folder directory
 - If you wish to run your own Google Translation API key, proceed to https://cloud.google.com/translate/docs/reference/rest/ and follow the instructions within 'Get Started for Free' on the top-right.
+- If you wish to run your own Firestore database, get started with https://firebase.google.com/ and simply create a dedicated project for this project.
 
 
 ## Technologies Used
