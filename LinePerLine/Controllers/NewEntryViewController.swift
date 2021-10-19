@@ -161,28 +161,8 @@ class NewEntryViewController: UIViewController, UIImagePickerControllerDelegate,
 
                         completedString += recognizedText.string + " "
                         self.textField.text += recognizedText.string + " "
-                        
-                        
-                        SwiftGoogleTranslate.shared.detect(recognizedText.string) { detections, error in
-                            if let detections = detections {
-                                for detection in detections {
-                                    lang = detection.language
-                                }
-                            }
-                        }
-                    }
-                    
-                }
-                SwiftGoogleTranslate.shared.translate(completedString, "es", lang) { text, error in
-                    if let t = text {
-                        
-                        DispatchQueue.main.async {
-                            self.textField.text += t + " "
-                        }
                     }
                 }
-                
-                self.textField.text += "\n"
             }
             
             request.recognitionLevel = VNRequestTextRecognitionLevel.accurate
@@ -278,7 +258,6 @@ extension NewEntryViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return languages.languageArray[row].name
     }
-    
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedLanguage = languages.languageArray[row].code
